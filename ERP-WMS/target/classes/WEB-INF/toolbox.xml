@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+
+    <tool>
+        <key>DateTool</key>
+        <scope>application</scope>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+    </tool>
+
+    <tool>
+    <key>MathTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.MathTool</class>
+    </tool>
+
+    <tool>
+    <key>NumberTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.NumberTool</class>
+    </tool>
+
+    <tool>
+    <key>EscapeTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.EscapeTool</class>
+    </tool>
+
+    <tool>
+    <key>AlternatorTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.AlternatorTool</class>
+    </tool>
+
+    <tool>
+    <key>ValueParser</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.ValueParser</class>
+    </tool>
+
+    <tool>
+    <key>ListTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.ListTool</class>
+    </tool>
+
+    <tool>
+    <key>SortTool</key>
+    <scope>application</scope>
+    <class>org.apache.velocity.tools.generic.SortTool</class>
+    </tool>
+
+    <tool>
+    <key>IteratorTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.generic.IteratorTool</class>
+    </tool>
+
+    <tool>
+    <key>ActionMessagesTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.ActionMessagesTool</class>
+    </tool>
+
+    <tool>
+    <key>ErrorsTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.ErrorsTool</class>
+    </tool>
+
+    <tool>
+    <key>FormTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.FormTool</class>
+    </tool>
+
+    <tool>
+    <key>MessageTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.MessageTool</class>
+    </tool>
+
+    <tool>
+    <key>StrutsLinkTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.StrutsLinkTool</class>
+    </tool>
+
+    <tool>
+    <key>SecureLinkTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.SecureLinkTool</class>
+    </tool>
+
+    <tool>
+    <key>TilesTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.TilesTool</class>
+    </tool>
+
+    <tool>
+    <key>ValidatorTool</key>
+    <scope>request</scope>
+    <class>org.apache.velocity.tools.struts.ValidatorTool</class>
+    </tool>
+</toolbox>
