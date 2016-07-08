@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <!-- 标准控制台输出的appender -->
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <param name="threshold" value="debug"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\}] [%t] %-5p %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- 记录所有ERROR日志的appender -->
+    <appender name="ERROR-ALL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/logs/error.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="threshold" value="error"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\}] [%t] %-5p %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- 记录所有DEBUG日志的appender -->
+    <appender name="DEBUG-ALL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/logs/debug.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="threshold" value="debug"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\}] [%t] %-5p %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- 记录所有INFO日志的appender -->
+    <appender name="INFO-ALL" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/logs/info.log"/>
+        <param name="append" value="true"/>
+        <param name="encoding" value="UTF-8"/>
+        <param name="threshold" value="info"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\}] [%t] %-5p %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- ===================================================================== -->
+    <!--                              以下是logger的定义                                                               -->
+    <!-- ===================================================================== -->
+
+    <!-- 3rd lib logger -->
+    <logger name="com.ibatis" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+    </logger>
+
+    <logger name="java.sql.Connection" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+    </logger>
+
+    <logger name="java.sql.Statement" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+    </logger>
+
+    <logger name="java.sql.PreparedStatement" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+    </logger>
+
+    <logger name="java.sql.ResultSet" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+    </logger>
+
+    <logger name="org.springframework" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </logger>
+
+    <logger name="com.mchange.v2" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </logger>
+
+    <logger name="com.danga.MemCached" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </logger>
+    <logger name="cn.huimin" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </logger>
+
+    <!-- 本SOA服务通用日志Logger -->
+    <logger name="CommonLog" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </logger>
+
+
+    <!-- ===================================================================== -->
+    <!--                            Root logger的定义                                                                      -->
+    <!-- ===================================================================== -->
+    <root>
+        <level value="debug"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEBUG-ALL"/>
+        <appender-ref ref="INFO-ALL"/>
+        <appender-ref ref="ERROR-ALL"/>
+    </root>
+</log4j:configuration>

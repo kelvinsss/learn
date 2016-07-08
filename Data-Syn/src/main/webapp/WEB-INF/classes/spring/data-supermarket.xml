@@ -1,0 +1,110 @@
+<!-- ERPPlat的数据访问服务 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd ">
+
+    <context:property-placeholder location="classpath*:mysql.properties"/>
+	
+	
+	<!-- 读的数据源_开始 -->
+	<bean id="read_dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${mysql_read.url}"/>
+        <property name="username" value="${mysql_read.username}"/>
+        <property name="password" value="${mysql_read.password}"/>
+        <property name="minIdle" value="3" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="100" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="3" />
+		<property name="maxWait" value="10000" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" /> 
+		<property name="minEvictableIdleTimeMillis" value="28000000"/> 
+		<property name="logAbandoned" value="true"/> 
+		<property name="validationQuery" value="select 1 from dual" /> 
+		<property name="testWhileIdle" value="true"/>
+    </bean>
+
+    <bean id="read_daoTemplate" class="org.light.data.base.DaoTemplate">
+        <property name="dataSource" ref="read_dataSource"/>
+    </bean>
+
+    <bean id="read_accessorBase" class="org.light.data.accessor.AccessorBase">
+        <property name="daoTemplate" ref="read_daoTemplate"/>
+    </bean>
+
+    <bean id="read_accessor" class="org.light.data.accessor.AccessorLogDecorator">
+        <constructor-arg ref="read_accessorBase"/>
+        <property name="daoTemplate" ref="read_daoTemplate"/>
+    </bean>
+    <!-- 读的数据源_结束 -->
+    
+    
+    <!-- 写的数据源_开始 -->
+    <bean id="write_dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${mysql_write.url}"/>
+        <property name="username" value="${mysql_write.username}"/>
+        <property name="password" value="${mysql_write.password}"/>
+        <property name="minIdle" value="3" />
+		<property name="initialSize" value="5" />
+		<property name="maxActive" value="100" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="3" />
+		<property name="maxWait" value="10000" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" /> 
+		<property name="minEvictableIdleTimeMillis" value="28000000"/> 
+		<property name="logAbandoned" value="true"/> 
+		<property name="validationQuery" value="select 1 from dual" /> 
+		<property name="testWhileIdle" value="true"/>
+    </bean>
+
+    <bean id="write_daoTemplate" class="org.light.data.base.DaoTemplate">
+        <property name="dataSource" ref="write_dataSource"/>
+    </bean>
+
+    <!-- Accessor config start -->
+    <bean id="write_accessorBase" class="org.light.data.accessor.AccessorBase">
+        <property name="daoTemplate" ref="write_daoTemplate"/>
+    </bean>
+
+    <bean id="write_accessor" class="org.light.data.accessor.AccessorLogDecorator">
+        <constructor-arg ref="write_accessorBase"/>
+        <property name="daoTemplate" ref="write_daoTemplate"/>
+    </bean>
+
+    <!-- 写的数据源结束 -->
+
+
+	<!--创建事务管理平台-->
+	<bean id="su_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="write_dataSource" />
+	</bean>
+	
+	<!--事务通知-->
+	<tx:advice id="su_transactionAdvice" transaction-manager="su_transactionManager">
+		<tx:attributes>
+            <tx:method name="getOutOrderInfo" propagation="REQUIRED" rollback-for="Exception"/>
+			<tx:method name="*" read-only="true" />
+        </tx:attributes>  
+	</tx:advice>
+	
+	<!--创建切入点指定事务通知-->
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="su_transactionAdvice" pointcut="(execution(public * cn.huimin.erpplat.service.*.*(..))) " />
+        <aop:advisor advice-ref="tempTransactionAdvice" pointcut="(execution(public * cn.huimin.erpplat.service.*.*(..))) "/>
+		<!-- 使用一个数据源,暂时注释掉,另一个事务管理器, -->
+		<!-- <aop:advisor advice-ref="2nd_transactionAdvice" pointcut="(execution(public * cn.huimin.erpplat.service.merger.*.*(..)))" /> -->
+	</aop:config>
+</beans>
