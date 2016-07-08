@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<map direction="erp_to_wms">
+	<tablemap code="t00001" source="supermarket" target="customers" joinkey="C_CODE">
+		<columnmap code="c00001" source="S_Id" target="C_CODE" calculate=""/>
+		<columnmap code="c00002" source="S_SuperMarket" target="C_NAME" calculate=""/>
+		<columnmap code="c00003" source="S_CircleId" target="AREA_ID" calculate=""/>
+		<columnmap code="c00004" source="S_Address" target="ADDRESS" calculate=""/>
+		<columnmap code="c00005" source="S_RelationPeople" target="CONTACT" calculate=""/>
+		<columnmap code="c00006" source="S_Telephone" target="PHONE" calculate=""/>
+		<columnmap code="c00007" source="S_X_Position" target="X_COOR" calculate=""/>
+		<columnmap code="c00008" source="S_Y_Position" target="Y_COOR" calculate=""/>
+		<columnmap code="c00009" source="S_Storehouse" target="WH_CODE" calculate=""/>
+		<columnmap code="c00010" source="s_lineId" target="" calculate=""/>
+	</tablemap>
+	<tablemap code="t00002" source="hmsellorders" target="wm_so_header" joinkey="ORIGINAL_BILL_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="BILL_ID" calculate=""/>
+		<columnmap code="c00002" source="HMBO_OrderNo" target="BILL_NO" calculate=""/>
+		<columnmap code="c00003" source="HMBO_StoreId" target="WH_CODE" calculate=""/>
+		<columnmap code="c00004" source="HMBO_MarketId" target="C_CODE" calculate=""/>
+		<columnmap code="c00005" source="HMBO_OrderTime" target="CREATE_DATE" calculate=""/>
+		<columnmap code="c00006" source="HMBO_Id" target="ORIGINAL_BILL_NO" calculate=""/>
+		<columnmap code="c00007" source="HMBO_ChkTime" target="CONFIRM_DATE" calculate=""/>
+		<columnmap code="c00008" source="HMBO_PayMethod" target="PAY_METHOD" calculate=""/>
+		<columnmap code="c00009" source="special_constant" target="BILL_TYPE" calculate=""/>			
+		<columnmap code="c00010" source="special_constant" target="SYNC_STATE" calculate=""/>
+		<columnmap code="c00011" source="HMBO_OrderState" target="BILL_STATE" calculate="">
+			<statemap source="100" target="60"/>
+			<statemap source="50" target="692"/>
+		</columnmap>
+		<columnmap code="c00012" source="HMBO_DeliveryState" target="BILL_STATE" calculate="">
+			<statemap source="0" target="60"/>
+			<statemap source="0" target="61"/>
+			<statemap source="0" target="62"/>
+			<statemap source="0" target="63"/>
+			<statemap source="6" target="64"/>
+			<statemap source="10" target="65"/>
+			<statemap source="15" target="66"/>
+			<statemap source="20" target="68"/>
+			<statemap source="23" target="691"/>
+		</columnmap>
+		<columnmap code="c00013" source="HMBO_PrintNum" target="PRINTED" calculate=""/>
+		<columnmap code="c00014" source="HMBO_OutTime" target="CLOSE_DATE" calculate=""/>
+		<columnmap code="c00015" source="HMBO_StoreId" target="FROM_WH_CODE" calculate=""/>
+	</tablemap>
+	<tablemap code="t00003" source="admin" target="wm_so_header" joinkey="">
+		<columnmap code="c00001" source="AdminName" target="SALES_MAN" calculate=""/>
+		<columnmap code="c00002" source="AdminTelphone" target="CONTRACT_NO" calculate=""/>		
+		<columnmap code="c00003" source="AdminId" target="" calculate=""/>		
+	</tablemap>
+	<tablemap code="t00004" source="hmsellorderproduct" target="wm_so_detail" joinkey="ROW_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="ID" calculate=""/>
+		<columnmap code="c00002" source="HMOP_Id" target="ROW_NO" calculate=""/>
+		<columnmap code="c00003" source="special_outer" target="BILL_ID" calculate="t00002.c00001"/>
+		<columnmap code="c00004" source="HMOP_PId" target="SKU_CODE" calculate=""/>
+		<columnmap code="c00005" source="HMOP_Num" target="QTY" calculate=""/>
+		<columnmap code="c00006" source="HMP_Norms" target="SPEC" calculate=""/>
+		<columnmap code="c00007" source="HMOP_Price" target="PRICE" calculate=""/>
+		<columnmap code="c00009" source="HMOP_Num" target="SUIT_NUM" calculate=""/>
+		<columnmap code="c00010" source="special_outer" target="BILL_TYPE" calculate="t00002.c00009"/>
+		<columnmap code="c00011" source="HMP_Unit" target="" calculate=""/>
+		<columnmap code="c00012" source="HMOP_BId" target="" calculate=""/>
+		<columnmap code="c00013" source="HMOP_RealNum" target="PICK_QTY" calculate=""/>
+	</tablemap>
+	<tablemap code="t00005" source="hm_order_list_new" target="wm_so_detail_attribute" joinkey="BILL_NO,BILL_NO,TYPE,SKU_CODE,UM_CODE,NUM">
+		<columnmap code="c00001" source="special_generate" target="ID" calculate=""/>
+		<columnmap code="c00002" source="orderid" target="BILL_NO" calculate=""/>
+		<columnmap code="c00003" source="type" target="TYPE" calculate=""/>
+		<columnmap code="c00004" source="productid" target="SKU_CODE" calculate=""/>
+		<columnmap code="c00005" source="unit" target="UM_CODE" calculate=""/>
+		<columnmap code="c00006" source="num" target="NUM" calculate=""/>
+		<columnmap code="c00007" source="buy_price" target="BUY_PRICE" calculate="s/100"/>
+		<columnmap code="c00008" source="sell_price" target="SELL_PRICE" calculate="s/100"/>
+	</tablemap>
+	<tablemap code="t00006" source="storepronum" target="WM_SO_DETAIL" joinkey="">
+		<columnmap code="c00001" source="isbulk" target="IS_CASE" calculate=""/>
+		<columnmap code="c00002" source="sub_Store_id" target="PICK_WH_CODE" calculate=""/>
+		<columnmap code="c00003" source="store_Id" target="" calculate=""/>
+		<columnmap code="c00004" source="BP_Id" target="" calculate=""/>
+	</tablemap>
+	<tablemap code="t00007" source="hpt_ba_units" target="WM_SO_DETAIL" joinkey="">
+		<columnmap code="c00001" source="UNIT_Id" target="UM_CODE" calculate=""/>
+		<columnmap code="c00002" source="UNIT_Name" target="" calculate=""/>
+	</tablemap>
+	<tablemap code="t00008" source="sellline" target="" joinkey="">
+		<columnmap code="c00001" source="lineid" target="" calculate=""/>
+		<columnmap code="c00002" source="adminid" target="" calculate=""/>
+	</tablemap>
+	<tablemap code="t00009" source="allotstorage" target="WM_SO_HEADER" joinkey="ORIGINAL_BILL_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="BILL_ID" calculate=""/>
+		<columnmap code="c00002" source="id" target="ORIGINAL_BILL_NO" calculate=""/>
+		<columnmap code="c00003" source="allot_id" target="BILL_NO" calculate=""/>
+		<columnmap code="c00004" source="allot_time" target="CREATE_DATE" calculate=""/>
+		<columnmap code="c00005" source="instorage_id" target="FROM_WH_CODE" calculate=""/>
+		<columnmap code="c00006" source="outstorage_id" target="WH_CODE" calculate=""/>
+		<columnmap code="c00007" source="transftype" target="BILL_TYPE" calculate="">
+			<statemap source="1" target="122"/>
+			<statemap source="2" target="123"/>
+			<statemap source="3" target="121"/>
+		</columnmap>
+		<columnmap code="c00008" source="special_constant" target="C_CODE" calculate=""/>
+		<columnmap code="c00009" source="special_constant" target="SALES_MAN" calculate=""/>
+		<columnmap code="c00011" source="allot_state" target="BILL_STATE" calculate="">
+			<statemap source="1" target="60"/>
+			<statemap source="1" target="61"/>
+			<statemap source="1" target="62"/>
+			<statemap source="1" target="63"/>
+			<statemap source="1" target="64"/>
+			<statemap source="1" target="65"/>
+			<statemap source="2" target="66"/>
+			<statemap source="2" target="68"/>
+		</columnmap>
+	</tablemap>
+	<tablemap code="t00010" source="allotproducts" target="WM_SO_DETAIL" joinkey="ROW_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="ID" calculate=""/>
+		<columnmap code="c00002" source="special_outer" target="BILL_ID" calculate="t00009.c00001"/>
+		<columnmap code="c00003" source="special_outer" target="BILL_TYPE" calculate="t00009.c00007"/>
+		<columnmap code="c00004" source="id" target="ROW_NO" calculate=""/>
+		<columnmap code="c00005" source="HMP_id" target="SKU_CODE" calculate=""/>
+		<columnmap code="c00006" source="HMP_Unit" target="" calculate=""/>
+		<columnmap code="c00007" source="allotNums" target="QTY" calculate=""/>
+		<columnmap code="c00008" source="HMP_SellNorms" target="SPEC" calculate=""/>
+		<columnmap code="c00009" source="HMP_BuyPrice" target="PRICE" calculate=""/>
+		<columnmap code="c00010" source="allot_id" target="" calculate=""/>
+		<columnmap code="c00011" source="RealityOutstock" target="PICK_QTY" calculate=""/>
+	</tablemap>
+	<tablemap code="t00011" source="allotstorage" target="wm_asn_header" joinkey="ORIGINAL_BILL_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="BILL_ID" calculate=""/>
+		<columnmap code="c00002" source="id" target="ORIGINAL_BILL_NO" calculate=""/>
+		<columnmap code="c00003" source="allot_id" target="BILL_NO" calculate=""/>
+		<columnmap code="c00004" source="allot_time" target="CREATE_DATE" calculate=""/>
+		<columnmap code="c00005" source="instorage_id" target="WH_CODE" calculate=""/>
+		<columnmap code="c00006" source="outstorage_id" target="SALES_MAN" calculate=""/>
+		<columnmap code="c00007" source="transftype" target="BILL_TYPE" calculate="">
+			<statemap source="1" target="3"/>
+			<statemap source="2" target="3"/>
+			<statemap source="3" target="3"/>
+		</columnmap>
+		<columnmap code="c00008" source="special_constant" target="S_CODE" calculate=""/>
+		<columnmap code="c00009" source="allot_state" target="BILL_STATE" calculate="">
+			<statemap source="3" target="20"/>
+			<statemap source="3" target="21"/>
+			<statemap source="3" target="22"/>
+			<statemap source="3" target="23"/>
+			<statemap source="3" target="24"/>
+			<statemap source="3" target="25"/>
+			<statemap source="3" target="26"/>
+			<statemap source="4" target="27"/>
+		</columnmap>
+	</tablemap>
+	<tablemap code="t00012" source="allotproducts" target="wm_asn_detail" joinkey="ROW_NO,BILL_TYPE">
+		<columnmap code="c00001" source="special_generate" target="ID" calculate=""/>
+		<columnmap code="c00002" source="special_outer" target="BILL_ID" calculate="t00011.c00001"/>
+		<columnmap code="c00003" source="special_outer" target="BILL_TYPE" calculate="t00011.c00007"/>
+		<columnmap code="c00004" source="id" target="ROW_NO" calculate=""/>
+		<columnmap code="c00005" source="HMP_id" target="SKU_CODE" calculate=""/>
+		<columnmap code="c00006" source="HMP_Unit" target="" calculate=""/>
+		<columnmap code="c00007" source="allotNums" target="QTY" calculate=""/>
+		<columnmap code="c00008" source="HMP_SellNorms" target="SPEC" calculate=""/>
+		<columnmap code="c00009" source="HMP_BuyPrice" target="PRICE" calculate=""/>
+		<columnmap code="c00010" source="allot_id" target="" calculate=""/>
+		<columnmap code="c00011" source="RealityInstock" target="PUT_QTY" calculate=""/>
+	</tablemap>
+</map>

@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IMQTransform>
+	<server>
+		<towms>
+			<interface name="IDownloadCustmorInfo" caption="客户信息下行" indextable="m00001.t00001">
+				<messages>
+					<message code="m00001" caption="客户信息" condition="">
+						<columnmap>
+							<map tablemap="t00001" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00008,c00009"/>			
+						</columnmap>
+						<filtermap condition="FROM ${t00001}"/>
+						<relationmap relation=""/>
+					</message>	
+				</messages>
+				<stores type="2" collection="SELECT Id FROM storehouse WHERE storehouse.branch_Id = (SELECT storehouse.branch_Id FROM storehouse INNER JOIN supermarket ON supermarket.S_Storehouse = storehouse.Id WHERE supermarket.S_Id = ${m00001.t00001.c00001})"/>
+			</interface>
+			<interface name="IDownloadSellOrderInfo" caption="新增订单信息下行" indextable="m00001.t00002">
+				<messages>
+					<message code="m00001" caption="订单主表" condition="${t00002.c00011}=100 and ${t00002.c00012}&lt;20">
+						<columnmap>
+							<map tablemap="t00002" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00008,c00009:120,c00010:2,c00011,c00015"/>
+							<map tablemap="t00003" columnmap="c00001,c00002"/>
+						</columnmap>
+						<filtermap condition="FROM ${t00002}  INNER JOIN ${t00001} ON ${t00002.c00004} = ${t00001.c00001} LEFT OUTER JOIN ${t00008} ON ${t00001.c00010} = ${t00008.c00001} LEFT JOIN ${t00003} ON ${t00008.c00002} = ${t00003.c00003}"/>
+						<relationmap relation=""/>
+					</message>
+					<message code="m00002" caption="订单详细信息" condition="">
+						<columnmap>
+							<map tablemap="t00004" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00009,c00010"/>
+							<map tablemap="t00006" columnmap="c00001,c00002"/>
+							<map tablemap="t00007" columnmap="c00001"/>
+						</columnmap>
+						<filtermap condition="FROM ${t00004} LEFT JOIN ${t00002} ON ${t00002.c00006} = ${t00004.c00012} LEFT JOIN ${t00001} ON ${t00002.c00004} = ${t00001.c00001} LEFT JOIN ${t00006} ON ${t00006.c00003} = ${t00001.c00009} AND ${t00006.c00004} = ${t00004.c00004} LEFT OUTER JOIN ${t00008} ON ${t00001.c00010} = ${t00008.c00001} LEFT JOIN ${t00003} ON ${t00008.c00002} = ${t00003.c00003} LEFT JOIN ${t00007} ON TRIM(${t00004.c00011}) = TRIM(${t00007.c00002})"/>
+						<relationmap relation="m00002.t00004.c00012=m00001.t00002.c00006"/>
+					</message>
+					<message code="m00003" caption="订单优惠详细信息" condition="">
+						<columnmap>
+							<map tablemap="t00005" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00008"/>			
+						</columnmap>
+						<filtermap condition="FROM ${t00005}"/>
+						<relationmap relation="m00003.t00005.c00002=m00001.t00002.c00002"/>
+					</message>
+				</messages>
+				<stores type="1" collection="m00001.t00002.c00003"/>
+			</interface>
+			<interface name="IDownloadOutStoreInfo" caption="调拨出库信息下行" indextable="m00001.t00009">
+				<messages>
+					<message code="m00001" caption="调拨出库主表" condition="${t00009.c00011}=1">
+						<columnmap>
+							<map tablemap="t00009" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00008:A,c00009:ERP系统,c00011:60"/>							
+						</columnmap>
+						<filtermap condition="FROM ${t00009}"/>
+						<relationmap relation=""/>
+					</message>
+					<message code="m00002" caption="调拨出库详细信息" condition="">
+						<columnmap>
+							<map tablemap="t00010" columnmap="c00001,c00002,c00003,c00004,c00005,c00007,c00008,c00009"/>
+							<map tablemap="t00007" columnmap="c00001"/>
+						</columnmap>
+						<filtermap condition="FROM ${t00010} LEFT JOIN ${t00007} ON TRIM(${t00010.c00006}) = TRIM(${t00007.c00002})"/>
+						<relationmap relation="m00002.t00010.c00010=m00001.t00009.c00003"/>
+					</message>
+				</messages>
+				<stores type="1" collection="m00001.t00009.c00006"/>
+			</interface>
+			<interface name="IDownloadInStoreInfo" caption="调拨入库信息下行" indextable="m00001.t00011">
+				<messages>
+					<message code="m00001" caption="调拨入库主表" condition="${t00011.c00009}=1">
+						<columnmap>
+							<map tablemap="t00011" columnmap="c00001,c00002,c00003,c00004,c00005,c00006,c00007,c00008:A,c00009:20"/>							
+						</columnmap>
+						<filtermap condition="FROM ${t00011}"/>
+						<relationmap relation=""/>
+					</message>
+					<message code="m00002" caption="调拨入库详细信息" condition="">
+						<columnmap>
+							<map tablemap="t00012" columnmap="c00001,c00002,c00003,c00004,c00005,c00007,c00008,c00009"/>
+							<map tablemap="t00007" columnmap="c00001"/>
+						</columnmap>
+						<filtermap condition="FROM ${t00012} LEFT JOIN ${t00007} ON TRIM(${t00012.c00006}) = TRIM(${t00007.c00002})"/>
+						<relationmap relation="m00002.t00012.c00010=m00001.t00011.c00003"/>
+					</message>
+				</messages>
+				<stores type="1" collection="m00001.t00011.c00005"/>
+			</interface>
+		</towms>
+		<toerp>
+			<interface name="IUploadSellOrderInfo" caption="订单信息上行" indextable="m00001.t00002">
+				<messages>
+					<message code="m00001" caption="订单主表">
+						<columnmap>
+							<map tablemap="t00002" columnmap="c00012,c00013,c00014"/>
+						</columnmap>
+						<filtermap condition="t00002.c00009:120"/>
+						<relationmap relation=""/>
+						<keymap key="t00002.c00006"/>
+					</message>
+					<message code="m00002" caption="订单详细信息">
+						<columnmap>
+							<map tablemap="t00004" columnmap="c00013"/>
+						</columnmap>
+						<filtermap condition="t00004.c00010:120"/>
+						<relationmap relation="t00004.c00003=t00002.c00001"/>
+						<keymap key="t00004.c00002"/>
+					</message>
+				</messages>
+			</interface>
+			<interface name="IUploadOutStoreInfo" caption="调拨出库信息上行" indextable="m00001.t00009">
+				<messages>
+					<message code="m00001" caption="调拨出库主表">
+						<columnmap>
+							<map tablemap="t00009" columnmap="c00011"/>							
+						</columnmap>
+						<filtermap condition="t00009.c00007:121;122;123"/>
+						<relationmap relation=""/>
+						<keymap key="t00009.c00002"/>
+					</message>
+					<message code="m00002" caption="调拨出库详细信息">
+						<columnmap>
+							<map tablemap="t00010" columnmap="c00011"/>
+						</columnmap>
+						<filtermap condition="t00010.c00003:121;122;123"/>
+						<relationmap relation="t00010.c00002=t00009.c00001"/>
+						<keymap key="t00010.c00004"/>
+					</message>
+				</messages>
+			</interface>
+			<interface name="IUploadInStoreInfo" caption="调拨入库信息上行" indextable="m00001.t00011">
+				<messages>
+					<message code="m00001" caption="调拨入库主表">
+						<columnmap>
+							<map tablemap="t00011" columnmap="c00009"/>							
+						</columnmap>
+						<filtermap condition="t00011.c00007:3"/>
+						<relationmap relation=""/>
+						<keymap key="t00011.c00002"/>
+					</message>
+					<message code="m00002" caption="调拨入库详细信息">
+						<columnmap>
+							<map tablemap="t00012" columnmap="c00011"/>
+						</columnmap>
+						<filtermap condition="t00012.c00003:3"/>
+						<relationmap relation="t00012.c00002=t00011.c00001"/>
+						<keymap key="t00012.c00004"/>
+					</message>
+				</messages>
+			</interface>
+		</toerp>
+	</server>
+	<service>
+		<towms>
+		</towms>
+		<toerp>
+		</toerp>
+	</service>
+ </IMQTransform>
