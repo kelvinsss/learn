@@ -31,21 +31,21 @@ public class DealSynErrorTask {
         LogUtil.debug("dealSynErrorTask 开始执行。。。");
 
         if(TaskSignalConstant.DATA_SYN_ERROR_SIGNAL == TaskStatusConstant.DATA_SYN_ERROR_OPEN){
-            List<Map<String, Object>> errorRecords = dataSysErrorService.searchErrorLog();
-
-            if(ListUtil.isEmpty(errorRecords)){
-                return;
-            }
-
-            for (Map<String, Object>  record : errorRecords){
-                Integer id = (Integer)record.get("id");
-                String beanId = record.get("bean_id").toString();
-                String methodName = record.get("method_name").toString();
-                String params = record.get("params").toString();
-                //TODO 添加不同错误的处理
-                dataSynService.getOutOrderInfo(Integer.parseInt(params));
-                dataSysErrorService.deleteErrorLogById(id);
-            }
+//            List<Map<String, Object>> errorRecords = dataSysErrorService.searchErrorLog();
+//
+//            if(ListUtil.isEmpty(errorRecords)){
+//                return;
+//            }
+//
+//            for (Map<String, Object>  record : errorRecords){
+//                Integer id = (Integer)record.get("id");
+//                String beanId = record.get("bean_id").toString();
+//                String methodName = record.get("method_name").toString();
+//                String params = record.get("params").toString();
+//                //TODO 添加不同错误的处理
+//                dataSynService.getOutOrderInfo(Integer.parseInt(params));
+//                dataSysErrorService.deleteErrorLogById(id);
+//            }
         }else {
             TaskSignalConstant.DATA_SYN_ERROR_SIGNAL = TaskStatusConstant.DATA_SYN_ERROR_CLOSED;
             LogUtil.info("dealSynErrorTask 停止执行。。。");
