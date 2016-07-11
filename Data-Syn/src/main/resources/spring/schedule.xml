@@ -16,11 +16,25 @@
         <property name="repeatInterval" value="30000" /> <!-- 每30秒执行一次 -->
     </bean>
 
+
+    <!-- 数据上行取数定时任务 -->
+    <bean name="dataSynErrorJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="dealSynErrorTask"/>
+        <property name="targetMethod" value="execute"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+    <bean id="dataSynErrorTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="dataSynErrorJob" />
+        <property name="startDelay" value="1000" /> <!-- 延迟1秒执行 -->
+        <property name="repeatInterval" value="30000" /> <!-- 每30秒执行一次 -->
+    </bean>
+
     <!-- 配置调度工厂 -->
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="dataSynTrigger" />
+                <ref bean="dataSynErrorTrigger"/>
             </list>
         </property>
     </bean>

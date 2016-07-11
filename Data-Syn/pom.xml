@@ -8,6 +8,7 @@
   <name>Data-Syn Maven Webapp</name>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.2.1.RELEASE</spring.version>
     <aspectj.version>1.8.7</aspectj.version>
   </properties>
@@ -73,6 +74,12 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
 
@@ -154,8 +161,15 @@
 
   <build>
     <finalName>Data-Syn</finalName>
-    <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+    <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>
     <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
       <resource>
         <directory>src/main/resources</directory>
         <includes>
@@ -164,6 +178,7 @@
         <filtering>true</filtering>
       </resource>
     </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -172,32 +187,34 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <encoding>utf8</encoding>
         </configuration>
       </plugin>
 
       <!-- 更改maven默认的打包目录 -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
           <webappDirectory>${basedir}/src/main/webapp</webappDirectory>
           <warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory>
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.tomcat.maven</groupId>
-        <artifactId>tomcat7-maven-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <url>http://localhost:8080/manager/text</url>
-          <uriEncoding>UTF-8</uriEncoding>
-          <server>tomcat</server>
-          <username>tomcat</username>
-          <password>tomcat</password>
-          <path>/</path>
-        </configuration>
-      </plugin>
-
+      <!--<plugin>-->
+        <!--<groupId>org.apache.tomcat.maven</groupId>-->
+        <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+        <!--<version>2.1</version>-->
+        <!--<configuration>-->
+          <!--<url>http://localhost:8080/manager/text</url>-->
+          <!--<uriEncoding>UTF-8</uriEncoding>-->
+          <!--<server>tomcat</server>-->
+          <!--<username>tomcat</username>-->
+          <!--<password>tomcat</password>-->
+          <!--<path>/</path>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
 
       <!-- mybatis generator-->
       <plugin>

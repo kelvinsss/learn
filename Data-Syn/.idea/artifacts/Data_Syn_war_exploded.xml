@@ -22,6 +22,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="Maven: commons-pool:commons-pool:1.5.4" />

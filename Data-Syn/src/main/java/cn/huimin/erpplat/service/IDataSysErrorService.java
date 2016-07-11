@@ -1,6 +1,9 @@
 package cn.huimin.erpplat.service;
 
-/** 
+import java.util.List;
+import java.util.Map;
+
+/**
  * @ClassName: IDataSysErrorService 
  * @Description: 处理数据同步错误的服务
  * @author  {ZhangSong} 
@@ -16,14 +19,14 @@ public interface IDataSysErrorService {
 	 * @param method
 	 * @param params
 	 */
-	public void addErrorLog(String beanId, String method, Object... params) throws Exception;
+	void addErrorLog(String beanId, String method, String params);
 	/**
 	 * 
 	 * @Title: concumeErrorLog 
 	 * @Description: 消费错误记录
-	 * @param beanId
-	 * @param method
-	 * @param params
 	 */
-	public void concumeErrorLog(String beanId, String method, Object... params) throws Exception;
+	List<Map<String, Object>> searchErrorLog();
+
+
+	void deleteErrorLogById(int id);
 }

@@ -3,6 +3,7 @@ package cn.huimin.erpplat.dao.impl;
 import cn.huimin.erpplat.dao.SqliteDao;
 import cn.huimin.erpplat.utils.LogUtil;
 import cn.huimin.erpplat.utils.SQLiteUtils;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import java.util.Map;
 /**
  * Created by guochun on 2016/7/8.
  */
+@Service("defaultSqliteDao")
 public class SqliteDaoImpl implements SqliteDao {
 
 

@@ -34,7 +34,7 @@ public class DataSynServiceImpl implements IDataSynService {
 
     //销售出库单
 	@Override
-    public void getOutOrderInfo(int sellorderid)throws Exception{
+    public void getOutOrderInfo(int sellorderid){
         int tid = 0;
         Map<String, Object> orderInfo = erpOrderDao.getOrderInfoById(sellorderid);
         if(MapUtil.isEmpty(orderInfo)){
