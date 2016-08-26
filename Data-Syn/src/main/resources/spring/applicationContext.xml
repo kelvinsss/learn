@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="cn.huimin.erpplat"/>
+    <import resource="data-supermarket.xml"/>
+    <import resource="data-temp.xml"/>
+    <import resource="schedule.xml"/>
+
+    <!-- velocity的配置 -->
+    <bean id="viewResolver"  class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="cache" value="true" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="exposeRequestAttributes" value="true" />
+        <property name="requestContextAttribute" value="rc" />
+        <property name="contentType" value="text/html;charset=utf-8" />
+        <property name="viewNames" value="*.htm,*.html,*.vm" />
+    </bean>
+    <bean id="velocityConfigurer"  class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <!--resourceLoaderPath属性通知Velocity到哪里找到velocity模板 -->
+        <property name="resourceLoaderPath" value="/WEB-INF/templates/" />
+        <property name="velocityProperties">
+            <props>
+                <prop key="input.encoding">utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+                <prop key="contentType">text/html;charset=utf-8</prop>
+                <prop key="file.resource.loader.cache">false</prop>
+                <prop key="file.resource.loader.modificationCheckInterval">1</prop>
+                <prop key="velocimacro.library.autoreload">true</prop>
+                <prop key="runtime.log.logsystem.class">org.apache.velocity.runtime.log.SimpleLog4JLogSystem</prop>
+                <prop key="runtime.log.error.stacktrace">true</prop>
+                <prop key="runtime.log.warn.stacktrace">true</prop>
+                <prop key="runtime.log.info.stacktrace">false</prop>
+                <prop key="runtime.log.invalid.reference">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+
+</beans>
