@@ -52,7 +52,7 @@ public class World {
         if(client == null){
             return;
         }
-        clients.remove(client);
+        clients.remove(client.getWareHouseId());
     }
 
     public Client findClientByWhId(String whId){
