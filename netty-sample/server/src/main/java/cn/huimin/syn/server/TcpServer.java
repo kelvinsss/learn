@@ -14,6 +14,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * netty tcp server
@@ -33,6 +36,7 @@ public class TcpServer {
                 @Override
                 protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                     ChannelPipeline pipeline = nioSocketChannel.pipeline();
+                    pipeline.addLast(new ReadTimeoutHandler(20, TimeUnit.SECONDS));
                     pipeline.addLast("messageDecoder", new MessageDecoder(Integer.MAX_VALUE, 4, 4, new StringDecoder()));
                     pipeline.addLast("messageEncoder", new MessageEncoder(new StringEncoder()));
                     pipeline.addLast("loginHandler", new LoginHandler());
@@ -50,6 +54,11 @@ public class TcpServer {
             worker.shutdownGracefully();
         }
 
+    }
+
+
+    public static void main(String[] args){
+        new TcpServer().start(10001);
     }
 
 }

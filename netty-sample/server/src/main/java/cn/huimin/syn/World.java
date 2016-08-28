@@ -59,4 +59,15 @@ public class World {
         return clients.get(whId);
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("online clients :[ ");
+        for (String key : clients.keySet()){
+            sb.append(key + ",");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

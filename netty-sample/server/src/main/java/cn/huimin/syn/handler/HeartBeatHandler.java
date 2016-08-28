@@ -19,7 +19,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
         Header header = message.getHeader();
         if(header != null && header.getType() == MessageType.HEARTBEAT_REQ.value()){
             //心跳消息
-            System.out.print("heartbeat message from client: " + World.getInstance().findClientByChannel(ctx.channel()).getWareHouseId());
+            System.out.println("heartbeat message from client: " + World.getInstance().findClientByChannel(ctx.channel()).getWareHouseId());
             //响应client心跳消息
             Message heartBeatResp = buildHeartBeatResp();
             ctx.writeAndFlush(heartBeatResp);
@@ -42,6 +42,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         World.getInstance().removeClientByChannel(channel);
         ctx.close();
+        System.out.println(World.getInstance());
     }
 
 }

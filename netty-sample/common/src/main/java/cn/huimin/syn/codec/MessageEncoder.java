@@ -25,7 +25,7 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
-        if(msg == null){
+        if(msg == null || msg.getHeader() == null){
             throw new Exception("message need encode is null");
         }
 
@@ -36,9 +36,11 @@ public class MessageEncoder extends MessageToByteEncoder<Message> {
         out.writeLong(header.getMessageId());//消息id
         out.writeByte(header.getType());
         //写消息体
-        byte[] body = encoder.encode(msg.getBody());
-        out.writeInt(body.length);
-        out.writeBytes(body);
+        if(msg.getBody() != null){
+            byte[] body = encoder.encode(msg.getBody());
+            out.writeInt(body.length);
+            out.writeBytes(body);
+        }
         //设置消息长度
         out.setInt(4,out.readableBytes() - 8);
     }

@@ -15,6 +15,7 @@ public class StringDecoder implements Decoder {
         }
         int length = buf.readInt();
         byte[] msgArr = new byte[length];
+        buf.readBytes(msgArr);
         return new String(msgArr, "utf-8");
     }
 

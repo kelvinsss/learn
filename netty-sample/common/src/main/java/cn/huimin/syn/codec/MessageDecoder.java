@@ -30,10 +30,10 @@ public class MessageDecoder extends LengthFieldBasedFrameDecoder {
         Message message = new Message();
         Header header =  new Header();
         //解析消息头
-        header.setCrcCode(in.readInt());
-        header.setLength(in.readInt());
-        header.setMessageId(in.readLong());
-        header.setType(in.readByte());
+        header.setCrcCode(msg.readInt());
+        header.setLength(msg.readInt());
+        header.setMessageId(msg.readLong());
+        header.setType(msg.readByte());
         message.setHeader(header);
         //如果消息体存在,解析消息体
         if(msg.readableBytes() > 4){

@@ -1,6 +1,7 @@
 package cn.huimin.syn.handler;
 
 import cn.huimin.syn.World;
+import cn.huimin.syn.struct.Header;
 import cn.huimin.syn.struct.Message;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,6 +15,10 @@ public class ServiceHandler extends SimpleChannelInboundHandler<Message> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws Exception {
         //业务消息,此处是客户端对消息的响应
+        Header header = msg.getHeader();
+        long messageId = header.getMessageId();
+        //TODO 客户端接收消息成功,删除保存的message
+
     }
 
     @Override
@@ -22,5 +27,6 @@ public class ServiceHandler extends SimpleChannelInboundHandler<Message> {
         Channel channel = ctx.channel();
         World.getInstance().removeClientByChannel(channel);
         ctx.close();
+        System.out.println(World.getInstance());
     }
 }

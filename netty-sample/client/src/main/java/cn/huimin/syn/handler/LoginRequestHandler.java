@@ -3,6 +3,7 @@ package cn.huimin.syn.handler;
 import cn.huimin.syn.constants.MessageType;
 import cn.huimin.syn.struct.Header;
 import cn.huimin.syn.struct.Message;
+import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -22,6 +23,9 @@ public class LoginRequestHandler extends ChannelInboundHandlerAdapter {
         Header header = new Header();
         header.setType(MessageType.LOGIN_REQ.value());
         message.setHeader(header);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("whId", "101");
+        message.setBody(jsonObject.toJSONString());
         return message;
     }
 

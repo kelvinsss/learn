@@ -22,7 +22,7 @@ public class ClientHeartBeatHandler extends ChannelInboundHandlerAdapter {
         Header header = message.getHeader();
         // 握手成功，主动发送心跳消息
         if (header != null&& header.getType() == MessageType.LOGIN_RESP.value()) {
-            heartBeat = ctx.executor().scheduleAtFixedRate(new ClientHeartBeatHandler.HeartBeatTask(ctx), 0, 5000,TimeUnit.MILLISECONDS);
+            heartBeat = ctx.executor().scheduleAtFixedRate(new ClientHeartBeatHandler.HeartBeatTask(ctx), 0, 10,TimeUnit.SECONDS);
         } else if (header != null && header.getType() == MessageType.HEARTBEAT_RESP.value()) {
             System.out.println("heartbeat message from servers");
         } else {

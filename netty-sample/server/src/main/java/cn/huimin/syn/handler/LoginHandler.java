@@ -30,6 +30,7 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
             client.setChannel(ctx.channel());
             World world = World.getInstance();
             world.addClient(client);
+            System.out.println(world);
             //响应登录成功到client
             Message resp = buildLoginResp(MessageType.LOGIN_RESP.value());
             ctx.writeAndFlush(resp);
@@ -54,13 +55,16 @@ public class LoginHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         World.getInstance().removeClientByChannel(channel);
         ctx.close();
+        System.out.println(World.getInstance());
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)throws Exception {
+        cause.printStackTrace();
         //移除client,关闭连接
         Channel channel = ctx.channel();
         World.getInstance().removeClientByChannel(channel);
         ctx.close();
+        System.out.println(World.getInstance());
     }
 }
