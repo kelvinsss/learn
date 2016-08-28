@@ -1,5 +1,6 @@
 package cn.huimin.syn.handler;
 
+import cn.huimin.syn.Client;
 import cn.huimin.syn.client.TcpClient;
 import cn.huimin.syn.constants.MessageType;
 import cn.huimin.syn.struct.Header;
@@ -23,6 +24,7 @@ public class ClientServiceHandler extends ChannelInboundHandlerAdapter {
         Message message = (Message) msg;
         Header header = message.getHeader();
         if(header != null && header.getType() == MessageType.SERVICE_REQ.value()){
+            Client.getInstance().setLastActiveTime(System.currentTimeMillis());
             //service message
             long messageId = header.getMessageId();
             Object body = message.getBody();

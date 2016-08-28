@@ -1,5 +1,6 @@
 package cn.huimin.syn.handler;
 
+import cn.huimin.syn.Client;
 import cn.huimin.syn.constants.MessageType;
 import cn.huimin.syn.struct.Header;
 import cn.huimin.syn.struct.Message;
@@ -22,9 +23,14 @@ public class ClientHeartBeatHandler extends ChannelInboundHandlerAdapter {
         Header header = message.getHeader();
         // 握手成功，主动发送心跳消息
         if (header != null&& header.getType() == MessageType.LOGIN_RESP.value()) {
+            Client client = Client.getInstance();
+            client.setChannel(ctx.channel());
+            client.setLastActiveTime(System.currentTimeMillis());
+
             heartBeat = ctx.executor().scheduleAtFixedRate(new ClientHeartBeatHandler.HeartBeatTask(ctx), 0, 10,TimeUnit.SECONDS);
         } else if (header != null && header.getType() == MessageType.HEARTBEAT_RESP.value()) {
-            System.out.println("heartbeat message from servers");
+            Client.getInstance().setLastActiveTime(System.currentTimeMillis());
+            System.out.println("heartbeat message from server");
         } else {
             ctx.fireChannelRead(msg);
         }
@@ -39,8 +45,13 @@ public class ClientHeartBeatHandler extends ChannelInboundHandlerAdapter {
 
         @Override
         public void run() {
-            Message heatBeat = buildHeatBeat();
-            ctx.writeAndFlush(heatBeat);
+            //十秒内如果client没有收到过server的消息,发送心跳消息
+            long lastActiveTime = Client.getInstance().getLastActiveTime();
+            long now = System.currentTimeMillis();
+            if(now - lastActiveTime >= 10000){
+                Message heatBeat = buildHeatBeat();
+                ctx.writeAndFlush(heatBeat);
+            }
         }
 
         private Message buildHeatBeat() {
